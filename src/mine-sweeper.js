@@ -1,4 +1,4 @@
-const { NotImplementedError } = require('../extensions/index.js');
+const { NotImplementedError } = require("../extensions/index.js");
 
 /**
  * In the popular Minesweeper game you have a board with some mines and those cells
@@ -23,11 +23,67 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function minesweeper(m) {
+	let resultArray = [];
+	let line = [];
+	let len1 = m.length;
+	if (len1 === 0) return resultArray;
+	let len2 = m[0].length;
+	for (let i = 0; i < len1; i++) {
+		for (let j = 0; j < len2; j++) {
+			if (i === 0) {
+				if (j === 0) {
+					line.push(m[i][j + 1] + m[i + 1][j] + m[i + 1][j + 1]);
+				} else if (j === len2 - 1) {
+					line.push(m[i][j - 1] + m[i + 1][j] + m[i + 1][j - 1]);
+				} else {
+					line.push(m[i][j + 1] + m[i + 1][j] + m[i + 1][j + 1] + m[i][j - 1] + m[i + 1][j - 1]);
+				}
+			} else if (i === len1 - 1) {
+				if (j === 0) {
+					line.push(m[i][j + 1] + m[i - 1][j] + m[i - 1][j + 1]);
+				} else if (j === len2 - 1) {
+					line.push(m[i][j - 1] + m[i - 1][j] + m[i - 1][j - 1]);
+				} else {
+					line.push(m[i][j + 1] + m[i - 1][j] + m[i - 1][j + 1] + m[i][j - 1] + m[i - 1][j - 1]);
+				}
+			} else {
+				if (j === 0) {
+					line.push(
+						m[i][j + 1] +
+							m[i - 1][j] +
+							m[i - 1][j + 1] +
+							m[i + 1][j] +
+							m[i + 1][j + 1]
+					);
+				} else if (j === len2 - 1) {
+					line.push(
+						m[i][j - 1] +
+							m[i - 1][j] +
+							m[i - 1][j - 1] +
+							m[i + 1][j] +
+							m[i + 1][j - 1]
+					);
+				} else {
+					line.push(
+						m[i][j + 1] +
+							m[i - 1][j + 1] +
+							m[i + 1][j + 1] +
+							m[i][j - 1] +
+							m[i - 1][j] +
+							m[i - 1][j - 1] +
+							m[i + 1][j] +
+							m[i + 1][j - 1]
+					);
+				}
+			}
+		}
+		resultArray.push(line);
+		line = [];
+	}
+	return resultArray;
 }
 
 module.exports = {
-  minesweeper
+	minesweeper,
 };
